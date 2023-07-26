@@ -3,6 +3,8 @@ import jwt
 from datetime import datetime, timedelta
 from functools import wraps
 from flask import request, jsonify
+from decouple import config
+
 
 def generate_token(user_id):
     # Define la fecha de expiración del token (1 hora desde ahora)
@@ -15,14 +17,14 @@ def generate_token(user_id):
     }
 
     # Genera el token JWT firmado con la clave secreta
-    token = jwt.encode(payload, 'IxAH7SjefD_IfpquIJP2a3ukYMs0E0s4MU-44jAgxSI', algorithm='HS256')
+    token = jwt.encode(payload, config('CLAVE_JWT'), algorithm='HS256')
 
     return token
 
 def verify_token(token):
     try:
         # Decodifica el token JWT y verifica la firma utilizando la clave secreta
-        payload = jwt.decode(token, 'IxAH7SjefD_IfpquIJP2a3ukYMs0E0s4MU-44jAgxSI', algorithms=['HS256'])
+        payload = jwt.decode(token, config('CLAVE_JWT'), algorithms=['HS256'])
         user_id = payload['user_id']
         return user_id
     except jwt.ExpiredSignatureError:
@@ -48,7 +50,7 @@ def token_required(f):
 
         try:
             # Decodificar y verificar el token
-            payload = jwt.decode(token, 'IxAH7SjefD_IfpquIJP2a3ukYMs0E0s4MU-44jAgxSI', algorithms=['HS256'])
+            payload = jwt.decode(token, config('CLAVE_JWT'), algorithms=['HS256'])
             # Aquí puedes realizar validaciones adicionales según tus necesidades
 
         except jwt.ExpiredSignatureError:

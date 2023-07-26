@@ -5,11 +5,11 @@ from controllers.user_controller import login
 from controllers.pets_controller import get_form_adopted
 from controllers.pets_controller import forms
 from utils.jwt_utils import token_required
+import os
+from waitress import serve
 
 
 app = Flask(__name__)
-
-
 
 # Rutas
 app.route('/register', methods=['POST'])(register_user)
@@ -28,4 +28,4 @@ def form_adopted():
 
 
 if __name__ == '__main__':
-    app.run()
+    serve(app, host='0.0.0.0', port=os.getenv("PORT", default=5000))

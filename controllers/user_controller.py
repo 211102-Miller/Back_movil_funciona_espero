@@ -7,7 +7,7 @@ from utils.jwt_utils import generate_token, verify_token
 def register():
     nombre = request.form['nombre']
     email = request.form['email']
-    ciudadEstado = request.form['   ']
+    ciudadEstado = request.form['ciuadadEstado']
     contrasena = request.form['contrasena']
 
     User.register(nombre, email, ciudadEstado, contrasena)
