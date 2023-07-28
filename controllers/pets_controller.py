@@ -26,9 +26,10 @@ def forms():
     image = request.files['image']
     horario = request.form['horario']
     ubicacion = request.form['ubicacion']
+    descripcion = request.form['descripcion']
 
     form_model = FormAdoptedModel()
-    document_id = form_model.save_form_data(nombre, raza, image, horario, ubicacion)
+    document_id = form_model.save_form_data(nombre, raza, image, horario, ubicacion,descripcion)
     
     # Devolver una respuesta JSON con el ID del documento
     return jsonify({'document_id': document_id})

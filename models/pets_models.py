@@ -4,7 +4,7 @@ from firebase_connection import db_firestore
 import datetime 
 
 class FormAdoptedModel:
-    def save_form_data(self, nombre, raza, image, horario, ubicacion):
+    def save_form_data(self, nombre, raza, image, horario, ubicacion,descripcion):
         filename = image.filename
         document_id = str(uuid.uuid4())
         bucket = storage.bucket('back-flutter-a83ed.appspot.com')
@@ -21,6 +21,7 @@ class FormAdoptedModel:
             'image': image_url,  # Guardar el enlace público en lugar del nombre de la imagen
             'horario': horario,
             'ubicacion': ubicacion,
+            'descripcion': descripcion,
         }
         db_firestore.collection('FormAdopted').document(document_id).set(data_firestore)
         return document_id
