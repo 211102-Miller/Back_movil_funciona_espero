@@ -1,6 +1,7 @@
 from firebase_admin import credentials, firestore, storage
 import uuid
 from firebase_connection import db_firestore
+import datetime 
 
 class FormAdoptedModel:
     def save_form_data(self, nombre, raza, image, horario, ubicacion):
@@ -10,10 +11,14 @@ class FormAdoptedModel:
         blob = bucket.blob(f'formAdopted/{filename}')
         blob.content_type = 'image/jpeg'
         blob.upload_from_file(image)
+        
+        # Obtener el enlace público a la imagen con el token de acceso
+        image_url = blob.generate_signed_url(datetime.timedelta(seconds=300), method='GET')
+        
         data_firestore = {
             'nombre': nombre,
             'raza': raza,
-            'image': filename,
+            'image': image_url,  # Guardar el enlace público en lugar del nombre de la imagen
             'horario': horario,
             'ubicacion': ubicacion,
         }
