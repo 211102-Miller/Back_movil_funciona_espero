@@ -13,7 +13,7 @@ class FormAdoptedModel:
         blob.upload_from_file(image)
         
         # Obtener el enlace público a la imagen con el token de acceso
-        image_url = blob.generate_signed_url(datetime.timedelta(seconds=300), method='GET')
+        image_url = blob.generate_signed_url(datetime.timedelta(days=10), method='GET')
         
         data_firestore = {
             'nombre': nombre,
